@@ -1,0 +1,9 @@
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\bin\Debug\Domain.dll
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\bin\Debug\Domain.pdb
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\bin\Debug\Enhancer.dll
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\bin\Debug\Enhancer.pdb
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\obj\Debug\Domain.csproj.CoreCompileInputs.cache
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\obj\Debug\Domain.csproj.CopyComplete
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\obj\Debug\Domain.dll
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\obj\Debug\Domain.pdb
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Domain\obj\Debug\Domain.csprojAssemblyReference.cache

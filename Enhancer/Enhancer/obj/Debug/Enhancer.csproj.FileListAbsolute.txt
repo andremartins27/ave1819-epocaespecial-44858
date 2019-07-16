@@ -1,0 +1,5 @@
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\bin\Debug\Enhancer.dll
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\bin\Debug\Enhancer.pdb
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\obj\Debug\Enhancer.csproj.CoreCompileInputs.cache
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\obj\Debug\Enhancer.dll
+E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\obj\Debug\Enhancer.pdb
