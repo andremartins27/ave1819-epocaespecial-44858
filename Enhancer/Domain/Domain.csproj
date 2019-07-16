@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{48E9542F-B693-4F9C-912C-27A7DD019D77}</ProjectGuid>
+    <ProjectGuid>{9879EDAE-6D1E-45A5-B250-BB4076EB0BF3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Domain</RootNamespace>
@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Enhancer\Enhancer.csproj">
-      <Project>{02FF2069-3F26-4C72-8517-1B5F5C31032E}</Project>
+      <Project>{E1FB6132-05AE-4DED-9B42-813215F2858F}</Project>
       <Name>Enhancer</Name>
     </ProjectReference>
   </ItemGroup>

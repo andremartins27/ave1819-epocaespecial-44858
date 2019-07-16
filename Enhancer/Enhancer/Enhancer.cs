@@ -48,7 +48,7 @@ namespace Enhancer
             //build properties
             PropertyInfo[] pi = GetProperties(klass);
 
-            foreach(PropertyInfo p in pi)
+            foreach (PropertyInfo p in pi)
             {
                 FieldBuilder fb = tb.DefineField(p.Name, p.PropertyType, FieldAttributes.Private);
 
@@ -56,10 +56,11 @@ namespace Enhancer
 
                 //get method
 
-                MethodBuilder mbget = tb.DefineMethod("get_" + p.Name, 
-                    MethodAttributes.Public | 
-                    MethodAttributes.SpecialName | 
-                    MethodAttributes.ReuseSlot, p.PropertyType, Type.EmptyTypes);
+                MethodBuilder mbget = tb.DefineMethod("get_" + p.Name,
+                    MethodAttributes.Public |
+                    MethodAttributes.Virtual |
+                    MethodAttributes.SpecialName |
+                    MethodAttributes.HideBySig, p.PropertyType, Type.EmptyTypes);
 
                 ILGenerator il = mbget.GetILGenerator();
                 il.Emit(OpCodes.Ldarg_0);
@@ -67,10 +68,11 @@ namespace Enhancer
                 il.Emit(OpCodes.Ret);
 
                 //set method
-                MethodBuilder mbset = tb.DefineMethod("set_"+p.Name, 
+                MethodBuilder mbset = tb.DefineMethod("set_" + p.Name,
                     MethodAttributes.Public |
+                    MethodAttributes.Virtual |
                     MethodAttributes.SpecialName |
-                    MethodAttributes.ReuseSlot, null, new Type[] { p.PropertyType });
+                    MethodAttributes.HideBySig, null, new Type[] { p.PropertyType });
 
                 ImplementMethods(mbset, p.GetSetMethod(), p.Name);
 
@@ -89,7 +91,7 @@ namespace Enhancer
 
 
                 ParameterInfo[] parameters = method.GetParameters();
-                Type[] array = new Type[pi.Length];
+                Type[] array = new Type[parameters.Length];
                 int idx = 0;
                 foreach (ParameterInfo p in parameters)
                 {
@@ -101,7 +103,7 @@ namespace Enhancer
                     MethodAttributes.Virtual |
                     MethodAttributes.ReuseSlot,
                     method.ReturnType,
-                    array.ToArray());
+                    array);
                 ImplementMethods(metBuilder, method, name);
             }
             Type final = tb.CreateTypeInfo().AsType();
@@ -134,6 +136,7 @@ namespace Enhancer
 
         private static void ImplementMethods(MethodBuilder metBuilder, MethodInfo m, string memberName)
         {
+            Console.WriteLine(memberName + " - " + m.Name);
             ILGenerator il = metBuilder.GetILGenerator();
 
             ParameterInfo[] pi = m.GetParameters();
@@ -142,8 +145,9 @@ namespace Enhancer
             LocalBuilder array = il.DeclareLocal(typeof(object[]));
             LocalBuilder member = il.DeclareLocal(typeof(MemberInfo));
             LocalBuilder a = il.DeclareLocal(typeof(Attribute));
-            LocalBuilder check = il.DeclareLocal(typeof(MethodInfo));
             LocalBuilder baseMethod = il.DeclareLocal(typeof(MethodInfo));
+
+          
 
             //Construção do array de parametros
             il.Emit(OpCodes.Ldc_I4, nparam);
@@ -158,12 +162,11 @@ namespace Enhancer
 
             }
 
-            il.Emit(OpCodes.Stloc_0);
+            il.Emit(OpCodes.Stloc_S, array);
 
-            
             //get curr member
             il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Callvirt, typeof(Object).GetMethod("GetType"));
+            il.Emit(OpCodes.Call, typeof(Object).GetMethod("GetType"));
             il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("get_BaseType"));
             il.Emit(OpCodes.Ldstr, memberName);
             il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("GetMember", new Type[] { typeof(String) }));
@@ -176,37 +179,22 @@ namespace Enhancer
             il.Emit(OpCodes.Ldtoken, typeof(EnhancerAttribute));
             il.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
             il.Emit(OpCodes.Call, typeof(CustomAttributeExtensions).GetMethod("GetCustomAttribute", new Type[] { typeof(MemberInfo), typeof(Type) }));
+            il.Emit(OpCodes.Castclass, typeof(EnhancerAttribute));
             il.Emit(OpCodes.Stloc_S, a);
-
 
             //check method
             il.Emit(OpCodes.Ldloc_S, a);
-            il.Emit(OpCodes.Callvirt, typeof(Object).GetMethod("GetType"));
-            il.Emit(OpCodes.Ldstr, "Check");
-            il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("GetMethod", new Type[] { typeof(String) }));
-            il.Emit(OpCodes.Stloc_S, check);
-            il.Emit(OpCodes.Ldloc_S, check);
-            il.Emit(OpCodes.Ldloc_S, a);
-            il.Emit(OpCodes.Ldloc_0);
-            il.Emit(OpCodes.Callvirt, typeof(MethodBase).GetMethod("Invoke", new Type[] { typeof(Object), typeof(Object[]) }));
-            il.Emit(OpCodes.Pop);
-            
+            il.Emit(OpCodes.Ldloc_S, array);
+            il.Emit(OpCodes.Callvirt, typeof(EnhancerAttribute).GetMethod("Check"));
 
             //base method
             il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Call, typeof(Object).GetMethod("GetType"));
-            il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("get_BaseType"));
-            il.Emit(OpCodes.Ldstr, memberName);
-            il.Emit(OpCodes.Callvirt, typeof(MemberInfo).GetMethod("get_Name"));
-            il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("GetMethod", new Type[] { typeof(String) }));
-            il.Emit(OpCodes.Stloc_S, baseMethod);
-            il.Emit(OpCodes.Ldloc_S, baseMethod);
-            il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Ldloc_0);
-            il.Emit(OpCodes.Callvirt, typeof(MethodBase).GetMethod("Invoke", new Type[] { typeof(Object), typeof(Object[]) }));
-            il.Emit(OpCodes.Pop);
+            for (int i = 1; i <= nparam; i++)
+            {
+                il.Emit(OpCodes.Ldarg, i);
+            }
+            il.Emit(OpCodes.Call, m);
             il.Emit(OpCodes.Ret);
-
         }
 
         private static MethodInfo[] GetMethods(Type klass)

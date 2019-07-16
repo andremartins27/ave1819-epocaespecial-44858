@@ -23,7 +23,8 @@ namespace Domain
                 object[] args = new object[] { value };
                 string methodname = "set_Market";
                 string name = "Market";
-                test.test3(this,methodname,name, args );
+                new test().test1(this,methodname,name, args );
+                base.Market = value;
             }
         }
 
@@ -32,7 +33,10 @@ namespace Domain
             get => base.Price;
             set
             {
-                new Max(58).Check(new object[] { value });
+                object[] args = new object[] { value };
+                string methodname = "set_Price";
+                string name = "Price";
+                new test().test1(this, methodname, name, args);
                 base.Price = value;
             }
         }
@@ -42,7 +46,10 @@ namespace Domain
             get => base.Trader;
             set
             {
-                new Accept("Jenny", "Lily", "Valery").Check(new object[] { value });
+                object[] args = new object[] { value };
+                string methodname = "set_Trader";
+                string name = "Trader";
+                new test().test1(this, methodname, name, args);
                 base.Trader = value;
             }
         }
@@ -52,7 +59,10 @@ namespace Domain
             get => base.Quote;
             set
             {
-                new Min(73).Check(new object[] { value });
+                object[] args = new object[] { value };
+                string methodname = "set_Quote";
+                string name = "Quote";
+                new test().test1(this, methodname, name, args);
                 base.Quote = value;
             }
         }
@@ -62,9 +72,21 @@ namespace Domain
             get => base.Rate;
             set
             {
-                new Min(0.325).Check(new object[] { value });
+                object[] args = new object[] { value };
+                string methodname = "set_Rate";
+                string name = "Rate";
+                new test().test1(this, methodname, name, args);
                 base.Rate = value;
             }
+        }
+
+        public override double BuildInterest(Portfolio port, Store st)
+        {
+            object[] args = new object[] { port,st };
+            string methodname = "BuildInterest";
+            string name = "BuildInterest";
+            new test().test1(this, methodname, name, args);
+            return base.BuildInterest(port, st);
         }
     }
 }

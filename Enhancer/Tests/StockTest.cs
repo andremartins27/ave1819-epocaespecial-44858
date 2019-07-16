@@ -16,15 +16,15 @@ namespace Tests
 
             st = Enhancer.Enhancer.Build<Stock>("Apple", "Dow Jones");
             //st = new StockEnhancer("Apple", "Dow Jones");
-            
-            
+
+
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void StockMarketFail()
         {
-            
+
             st.Market = null;
         }
 

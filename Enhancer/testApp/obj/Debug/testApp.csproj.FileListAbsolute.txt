@@ -1,0 +1,12 @@
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\bin\Debug\testApp.exe.config
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\bin\Debug\testApp.exe
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\bin\Debug\testApp.pdb
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\bin\Debug\Domain.dll
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\bin\Debug\Enhancer.dll
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\bin\Debug\Domain.pdb
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\bin\Debug\Enhancer.pdb
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\obj\Debug\testApp.csprojAssemblyReference.cache
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\obj\Debug\testApp.csproj.CoreCompileInputs.cache
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\obj\Debug\testApp.csproj.CopyComplete
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\obj\Debug\testApp.exe
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\testApp\obj\Debug\testApp.pdb

@@ -10,11 +10,12 @@ namespace Enhancer
     {
         public override void Check(object[] args)
         {
+            Console.WriteLine("Check");
             if (args == null || args[0] == null)
             {
                 throw new ArgumentException("Invalid argument");
             }
-
+            return;
         }
     }
 }

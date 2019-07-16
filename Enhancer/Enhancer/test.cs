@@ -10,29 +10,23 @@ namespace Enhancer
 {
     public class test
     {
-        public void test1(MethodBuilder metBuilder, MethodInfo m, string name)
+        
+        public void test2<T>(T obj, String method, String name, params object[] values)
         {
-            object[] array = { 1, 2 };//apenas para teste
-            MemberInfo member = GetType().GetMember(name)[0];
-            Attribute a = member.GetCustomAttribute(typeof(EnhancerAttribute));
-            a.GetType().GetMethod("Check").Invoke(a, array);
-            GetType().BaseType.GetMethod(name).Invoke(this, array);
+            T ldarg0 = obj;
+            string methodName = method;
+            string memberName = name;
+            object[] array = values;
 
+            MemberInfo member = this.GetType().BaseType.GetMember(memberName)[0];
+            EnhancerAttribute a = (EnhancerAttribute) member.GetCustomAttribute(typeof(EnhancerAttribute));
+            a.Check(array);
+            MethodInfo baseMethod = this.GetType().BaseType.GetMethod(methodName);
+            baseMethod.Invoke(this, array);
 
         }
 
-        public void test2(MethodBuilder metBuilder, MethodInfo m, string name)
-        {
-            object[] array = { };//apenas para teste
-            MemberInfo member = GetType().GetMember(name)[0];
-            Attribute a = member.GetCustomAttribute(typeof(EnhancerAttribute));
-            a.GetType().GetMethod("Check").Invoke(a, array);
-            GetType().BaseType.GetMethod(name).Invoke(this, array);
-
-
-        }
-
-        public static void test3<T>(T obj, String method, String name, params object[] values)
+        public void test1<T>(T obj, String method, String name, params object[] values)
         {
             T ldarg0 = obj;
             string methodName = method;
@@ -40,11 +34,12 @@ namespace Enhancer
             object[] array = values;
 
             MemberInfo member = ldarg0.GetType().BaseType.GetMember(memberName)[0];
-            Attribute a = member.GetCustomAttribute(typeof(EnhancerAttribute));
-            MethodInfo check = a.GetType().GetMethod("Check");
-            check.Invoke(a, array);
-            MethodInfo baseMethod = ldarg0.GetType().BaseType.GetMethod(methodName);
+            EnhancerAttribute a = (EnhancerAttribute)member.GetCustomAttribute(typeof(EnhancerAttribute));
+            a.Check(array);
+            /*Type t = ldarg0.GetType().BaseType;
+            MethodInfo baseMethod = t.GetMethod(methodName);
             baseMethod.Invoke(ldarg0, array);
+            return;*/
 
         }
 

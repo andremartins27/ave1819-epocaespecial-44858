@@ -1,6 +1,0 @@
-E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\bin\Release\Enhancer.dll
-E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\bin\Release\Enhancer.pdb
-E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\obj\Release\Enhancer.csprojAssemblyReference.cache
-E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\obj\Release\Enhancer.csproj.CoreCompileInputs.cache
-E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\obj\Release\Enhancer.dll
-E:\Faculdade\LEIC\Semestre4\AVE\EpocaEspecial\Enhancer\Enhancer\obj\Release\Enhancer.pdb

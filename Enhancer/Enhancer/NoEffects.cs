@@ -10,7 +10,8 @@ namespace Enhancer
     {
         public override void Check(object[] args)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("NoEffects");
+            
         }
     }
 }

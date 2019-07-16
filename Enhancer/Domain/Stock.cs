@@ -12,7 +12,8 @@ namespace Domain
         private readonly string name;
         private readonly string index;
 
-        public Stock(string name, string index) {
+        public Stock(string name, string index)
+        {
             this.name = name;
             this.index = index;
         }
@@ -30,6 +31,10 @@ namespace Domain
                                                // dará excepção se o estado de this ou algum dos parâmetros tiver sido alterado
                                                // pela execução do método anotado -- BuildInterest
         [NoEffects]
-        public double BuildInterest(Portfolio port, Store st) { return default(double); }
+        public virtual double BuildInterest(Portfolio port, Store st)
+        {
+
+            return default(double);
+        }
     }
 }
