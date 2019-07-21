@@ -15,7 +15,7 @@ namespace Tests
         {
 
             st = Enhancer.Enhancer.Build<Stock>("Apple", "Dow Jones");
-            //st = new StockEnhancer("Apple", "Dow Jones");
+            // st = new StockEnhancer("Apple", "Dow Jones");
 
 
         }
@@ -55,5 +55,54 @@ namespace Tests
         {
             st.Price = 60;
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void StockBuildInterestFail()
+        {
+            st.BuildInterest(new Portfolio(), new Store());
+        }
+
+        [TestMethod]
+        public void StockMarketSuccess()
+        {
+            st.Market = "isel";
+            Assert.AreEqual(st.Market, "isel");
+        }
+
+        [TestMethod]
+        public void StockTraderSuccess()
+        {
+            st.Trader = "Lily";
+            Assert.AreEqual(st.Trader, "Lily");
+        }
+
+        [TestMethod]
+        public void StockQuoteSuccess()
+        {
+            st.Quote = 80;
+            Assert.AreEqual(st.Quote, 80);
+        }
+
+        [TestMethod]
+        public void StockRateSuccess()
+        {
+            st.Rate = 1.02;
+            Assert.AreEqual(st.Rate, 1.02);
+        }
+        [TestMethod]
+        public void StockPriceSuccess()
+        {
+            st.Price = 40;
+            Assert.AreEqual(st.Price, 40);
+        }
+
+        [TestMethod]
+        public void StockBuildInterestSuccess()
+        {
+            st.BuildInterest(null, null);
+            Assert.AreEqual(st, st);
+        }
+
     }
 }

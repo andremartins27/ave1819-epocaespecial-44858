@@ -3,3 +3,4 @@ E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\Enhancer\bi
 E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\Enhancer\obj\Debug\Enhancer.csproj.CoreCompileInputs.cache
 E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\Enhancer\obj\Debug\Enhancer.dll
 E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\Enhancer\obj\Debug\Enhancer.pdb
+E:\Faculdade\LEIC\Semestre4\AVE\ave1819-epocaespecial-44858\Enhancer\Enhancer\obj\Debug\Enhancer.csprojAssemblyReference.cache

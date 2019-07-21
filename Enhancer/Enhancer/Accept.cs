@@ -8,20 +8,27 @@ namespace Enhancer
 {
     public class Accept : EnhancerAttribute
     {
-        private readonly string[] valid;
+        private readonly object[] valid;
 
-        public Accept(params string[] valid)
+        public Accept(params object[] valid)
         {
             this.valid = valid;
         }
 
         public override void Check(object[] args)
         {
-            foreach(string s in valid)
+            bool equal = false;
+            foreach (string s in valid)
             {
-                if(!s.Equals(args[0]))throw new ArgumentException("Not accepted parameter");
+                if (s.Equals(args[1]))
+                {
+                    equal = true;
+                    break;
+                }
+
             }
-            
+            if (!equal) throw new ArgumentException("Not accepted parameter");
+
         }
 
     }

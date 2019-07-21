@@ -20,10 +20,10 @@ namespace Domain
             get => base.Market;
             set
             {
-                object[] args = new object[] { value };
+                object[] args = new object[] { this, value };
                 string methodname = "set_Market";
                 string name = "Market";
-                new test().test1(this,methodname,name, args );
+                new test().test1(this, methodname, name, args);
                 base.Market = value;
             }
         }
@@ -33,7 +33,7 @@ namespace Domain
             get => base.Price;
             set
             {
-                object[] args = new object[] { value };
+                object[] args = new object[] { this, value };
                 string methodname = "set_Price";
                 string name = "Price";
                 new test().test1(this, methodname, name, args);
@@ -46,7 +46,7 @@ namespace Domain
             get => base.Trader;
             set
             {
-                object[] args = new object[] { value };
+                object[] args = new object[] { this, value };
                 string methodname = "set_Trader";
                 string name = "Trader";
                 new test().test1(this, methodname, name, args);
@@ -59,7 +59,7 @@ namespace Domain
             get => base.Quote;
             set
             {
-                object[] args = new object[] { value };
+                object[] args = new object[] { this, value };
                 string methodname = "set_Quote";
                 string name = "Quote";
                 new test().test1(this, methodname, name, args);
@@ -72,7 +72,7 @@ namespace Domain
             get => base.Rate;
             set
             {
-                object[] args = new object[] { value };
+                object[] args = new object[] { this, value };
                 string methodname = "set_Rate";
                 string name = "Rate";
                 new test().test1(this, methodname, name, args);
@@ -82,11 +82,15 @@ namespace Domain
 
         public override double BuildInterest(Portfolio port, Store st)
         {
-            object[] args = new object[] { port,st };
+            object[] argsThis = new object[] {this, port,st };
             string methodname = "BuildInterest";
             string name = "BuildInterest";
-            new test().test1(this, methodname, name, args);
-            return base.BuildInterest(port, st);
+            object[] args = new object[] { port, st };
+            new test().test1(this, methodname, name, argsThis);
+            //double toret =(Double) GetType().BaseType.GetMethod(methodname).Invoke(this, args);
+            double toret = base.BuildInterest(port, st);
+            new test().test1(this, methodname, name, argsThis);
+            return toret;
         }
     }
 }

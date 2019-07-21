@@ -21,8 +21,10 @@ namespace Enhancer
             MemberInfo member = this.GetType().BaseType.GetMember(memberName)[0];
             EnhancerAttribute a = (EnhancerAttribute) member.GetCustomAttribute(typeof(EnhancerAttribute));
             a.Check(array);
+            array =new object[] { obj, name};
             MethodInfo baseMethod = this.GetType().BaseType.GetMethod(methodName);
             baseMethod.Invoke(this, array);
+
 
         }
 

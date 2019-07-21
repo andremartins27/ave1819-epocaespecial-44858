@@ -28,13 +28,19 @@ namespace Domain
         public virtual string Trader { get; set; } // set só aceita valores Jenny, Lily e Valery
         [Max(58)]
         public virtual int Price { get; set; } // set dará excepção para valores > 58
+
                                                // dará excepção se o estado de this ou algum dos parâmetros tiver sido alterado
                                                // pela execução do método anotado -- BuildInterest
         [NoEffects]
         public virtual double BuildInterest(Portfolio port, Store st)
         {
 
-            return default(double);
+            if(port != null && st != null)
+            {
+                Rate += 0.05;
+                return Rate;
+            }
+            else return default(double);
         }
     }
 }

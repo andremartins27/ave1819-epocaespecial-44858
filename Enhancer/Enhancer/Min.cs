@@ -17,7 +17,7 @@ namespace Enhancer
 
         public override void Check(object[] args)
         {
-            IConvertible convert = args[0] as IConvertible;
+            IConvertible convert = args[1] as IConvertible;
 
             if (convert.ToDouble(null) < value)
                 throw new ArgumentException("Minimum value is " + value);

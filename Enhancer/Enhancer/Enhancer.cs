@@ -74,7 +74,7 @@ namespace Enhancer
                     MethodAttributes.SpecialName |
                     MethodAttributes.HideBySig, null, new Type[] { p.PropertyType });
 
-                ImplementMethods(mbset, p.GetSetMethod(), p.Name);
+                ImplementSetMethod(mbset, p.GetSetMethod(), p.Name, fb);
 
                 pb.SetSetMethod(mbset);
                 pb.SetGetMethod(mbget);
@@ -111,58 +111,28 @@ namespace Enhancer
             return (T)Activator.CreateInstance(final, args);
         }
 
-        internal static Attribute getAttribute(Type type, string name)
+        private static void ImplementSetMethod(MethodBuilder metBuilder, MethodInfo m, string memberName, FieldBuilder fb)
         {
-            return type.GetMember(name)[0].GetCustomAttribute(typeof(EnhancerAttribute));
-        }
-
-        public static MethodInfo getCheckMethod(Attribute a)
-        {
-            return a.GetType().GetMethod("Check");
-        }
-
-        private static void ImplementConstructor(ConstructorInfo c, ConstructorBuilder cb, int nparam)
-        {
-            ILGenerator il = cb.GetILGenerator();
-            il.Emit(OpCodes.Ldarg_0);
-            for (int i = 1; i <= nparam; i++)
-            {
-                il.Emit(OpCodes.Ldarg, i);
-            }
-            il.Emit(OpCodes.Call, c);
-            il.Emit(OpCodes.Ret);
-
-        }
-
-        private static void ImplementMethods(MethodBuilder metBuilder, MethodInfo m, string memberName)
-        {
-            Console.WriteLine(memberName + " - " + m.Name);
             ILGenerator il = metBuilder.GetILGenerator();
 
-            ParameterInfo[] pi = m.GetParameters();
-            int nparam = pi.Length;
-
-            LocalBuilder array = il.DeclareLocal(typeof(object[]));
+            LocalBuilder arrayThis = il.DeclareLocal(typeof(object[]));
             LocalBuilder member = il.DeclareLocal(typeof(MemberInfo));
             LocalBuilder a = il.DeclareLocal(typeof(Attribute));
-            LocalBuilder baseMethod = il.DeclareLocal(typeof(MethodInfo));
-
-          
 
             //Construção do array de parametros
-            il.Emit(OpCodes.Ldc_I4, nparam);
+            il.Emit(OpCodes.Ldc_I4_2);
             il.Emit(OpCodes.Newarr, typeof(Object));
 
-            for (int i = 0; i < nparam; i++)
-            {
-                il.Emit(OpCodes.Dup);
-                il.Emit(OpCodes.Ldc_I4, i);
-                il.Emit(OpCodes.Ldarg, i + 1);
-                il.Emit(OpCodes.Stelem_Ref);
-
-            }
-
-            il.Emit(OpCodes.Stloc_S, array);
+            il.Emit(OpCodes.Dup);
+            il.Emit(OpCodes.Ldc_I4_0);
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Stelem_Ref);
+            il.Emit(OpCodes.Dup);
+            il.Emit(OpCodes.Ldc_I4_1);
+            il.Emit(OpCodes.Ldarg_1);
+            if (fb.FieldType.IsValueType) il.Emit(OpCodes.Box, fb.FieldType);
+            il.Emit(OpCodes.Stelem_Ref);
+            il.Emit(OpCodes.Stloc_S, arrayThis);
 
             //get curr member
             il.Emit(OpCodes.Ldarg_0);
@@ -182,9 +152,92 @@ namespace Enhancer
             il.Emit(OpCodes.Castclass, typeof(EnhancerAttribute));
             il.Emit(OpCodes.Stloc_S, a);
 
-            //check method
+            //check method(pre)
             il.Emit(OpCodes.Ldloc_S, a);
-            il.Emit(OpCodes.Ldloc_S, array);
+            il.Emit(OpCodes.Ldloc_S, arrayThis);
+            il.Emit(OpCodes.Callvirt, typeof(EnhancerAttribute).GetMethod("Check"));
+
+            //base method
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Ldarg_1);
+            il.Emit(OpCodes.Stfld, fb);
+            
+            //check method(after)
+            il.Emit(OpCodes.Ldloc_S, a);
+            il.Emit(OpCodes.Ldloc_S, arrayThis);
+            il.Emit(OpCodes.Callvirt, typeof(EnhancerAttribute).GetMethod("Check"));
+
+            il.Emit(OpCodes.Ret);
+        }
+
+        private static void ImplementConstructor(ConstructorInfo c, ConstructorBuilder cb, int nparam)
+        {
+            ILGenerator il = cb.GetILGenerator();
+            il.Emit(OpCodes.Ldarg_0);
+            for (int i = 1; i <= nparam; i++)
+            {
+                il.Emit(OpCodes.Ldarg, i);
+            }
+            il.Emit(OpCodes.Call, c);
+            il.Emit(OpCodes.Ret);
+
+        }
+
+        private static void ImplementMethods(MethodBuilder metBuilder, MethodInfo m, string memberName)
+        {
+
+            ILGenerator il = metBuilder.GetILGenerator();
+
+            ParameterInfo[] pi = m.GetParameters();
+            int nparam = pi.Length;
+
+            Type retType = m.ReturnType;
+            LocalBuilder toret = il.DeclareLocal(retType.GetType());
+
+            LocalBuilder arrayThis = il.DeclareLocal(typeof(object[]));
+            LocalBuilder member = il.DeclareLocal(typeof(MemberInfo));
+            LocalBuilder a = il.DeclareLocal(typeof(Attribute));
+
+            //Construção do array de parametros
+            il.Emit(OpCodes.Ldc_I4, nparam + 1);
+            il.Emit(OpCodes.Newarr, typeof(Object));
+
+            il.Emit(OpCodes.Dup);
+            il.Emit(OpCodes.Ldc_I4_0);
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Stelem_Ref);
+
+            for (int i = 1; i <= nparam; i++)
+            {
+                il.Emit(OpCodes.Dup);
+                il.Emit(OpCodes.Ldc_I4, i);
+                il.Emit(OpCodes.Ldarg, i);
+                if (pi[i - 1].ParameterType.IsValueType) il.Emit(OpCodes.Box, pi[i - 1].ParameterType);
+                il.Emit(OpCodes.Stelem_Ref);
+            }
+            il.Emit(OpCodes.Stloc_S, arrayThis);
+
+            //get curr member
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Call, typeof(Object).GetMethod("GetType"));
+            il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("get_BaseType"));
+            il.Emit(OpCodes.Ldstr, memberName);
+            il.Emit(OpCodes.Callvirt, typeof(Type).GetMethod("GetMember", new Type[] { typeof(String) }));
+            il.Emit(OpCodes.Ldc_I4_0);
+            il.Emit(OpCodes.Ldelem_Ref);
+            il.Emit(OpCodes.Stloc_S, member);
+
+            //attribute
+            il.Emit(OpCodes.Ldloc_S, member);
+            il.Emit(OpCodes.Ldtoken, typeof(EnhancerAttribute));
+            il.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
+            il.Emit(OpCodes.Call, typeof(CustomAttributeExtensions).GetMethod("GetCustomAttribute", new Type[] { typeof(MemberInfo), typeof(Type) }));
+            il.Emit(OpCodes.Castclass, typeof(EnhancerAttribute));
+            il.Emit(OpCodes.Stloc_S, a);
+
+            //check method(pre)
+            il.Emit(OpCodes.Ldloc_S, a);
+            il.Emit(OpCodes.Ldloc_S, arrayThis);
             il.Emit(OpCodes.Callvirt, typeof(EnhancerAttribute).GetMethod("Check"));
 
             //base method
@@ -193,7 +246,18 @@ namespace Enhancer
             {
                 il.Emit(OpCodes.Ldarg, i);
             }
+
             il.Emit(OpCodes.Call, m);
+            if (m.ReturnType != typeof(void)) il.Emit(OpCodes.Stloc_S, toret);
+
+
+            //check method(after)
+            il.Emit(OpCodes.Ldloc_S, a);
+            il.Emit(OpCodes.Ldloc_S, arrayThis);
+            il.Emit(OpCodes.Callvirt, typeof(EnhancerAttribute).GetMethod("Check"));
+
+            if (m.ReturnType != typeof(void)) il.Emit(OpCodes.Ldloc_S, toret);
+
             il.Emit(OpCodes.Ret);
         }
 
@@ -241,7 +305,6 @@ namespace Enhancer
 
             return toRet;
         }
-
 
     }
 }
