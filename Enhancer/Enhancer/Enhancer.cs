@@ -106,6 +106,8 @@ namespace Enhancer
                     array);
                 ImplementMethods(metBuilder, method, name);
             }
+
+
             Type final = tb.CreateTypeInfo().AsType();
             asmBuilder.Save(NAME + ".dll");
             return (T)Activator.CreateInstance(final, args);

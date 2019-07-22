@@ -11,4 +11,3 @@ namespace Enhancer
         public abstract void Check(object[] args);
     }
 }
-

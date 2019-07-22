@@ -28,7 +28,7 @@ namespace Enhancer
 
         }
 
-        public void test1<T>(T obj, String method, String name, params object[] values)
+        public static void test1<T>(T obj, String method, String name, params object[] values)
         {
             T ldarg0 = obj;
             string methodName = method;

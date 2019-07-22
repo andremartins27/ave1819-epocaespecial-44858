@@ -10,7 +10,7 @@ namespace Enhancer
     {
         private readonly double value;
 
-        public Min(Double value)
+        public Min(double value)
         {
             this.value = value;
         }

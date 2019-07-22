@@ -13,11 +13,7 @@ namespace Tests
 
         public StockTest()
         {
-
             st = Enhancer.Enhancer.Build<Stock>("Apple", "Dow Jones");
-            // st = new StockEnhancer("Apple", "Dow Jones");
-
-
         }
 
         [TestMethod]

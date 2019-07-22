@@ -8,15 +8,15 @@ namespace Enhancer
 {
     public class NonNull : EnhancerAttribute
     {
-
         public override void Check(object[] args)
         {
-            Console.WriteLine("nonnull - "+ args[1]);
-            if (args == null || args[1] == null)
+            for (int i = 1; i < args.Length; i++)
             {
-                throw new ArgumentException("Invalid argument");
+                if (args[i] == null)
+                {
+                    throw new ArgumentException("Invalid argument");
+                }
             }
-            return;
         }
     }
 }

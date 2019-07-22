@@ -20,7 +20,7 @@ namespace Enhancer
             IConvertible convert = args[1] as IConvertible;
 
             if (convert.ToDouble(null) > value)
-                throw new ArgumentException("Minimum value is " + value);
+                throw new ArgumentException("Maximum value is " + value);
         }
     }
 }

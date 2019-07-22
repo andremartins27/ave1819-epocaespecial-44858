@@ -18,18 +18,19 @@ namespace Enhancer
         public override void Check(object[] args)
         {
             bool equal = false;
-            foreach (string s in valid)
+            for (int i = 1; i < args.Length; i++)
             {
-                if (s.Equals(args[1]))
+                foreach (string s in valid)
                 {
-                    equal = true;
-                    break;
+                    if (s.Equals(args[1]))
+                    {
+                        equal = true;
+                        break;
+                    }
                 }
-
+                if (!equal) throw new ArgumentException("Not accepted parameter");
+                equal = false;
             }
-            if (!equal) throw new ArgumentException("Not accepted parameter");
-
         }
-
     }
 }
